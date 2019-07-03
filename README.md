@@ -4,6 +4,7 @@
 A simple  ASP.NE Core WebApi project implement a Hexagonal Architecture basing on SOLID and Clean Code principles.
 
 ### Roadmap
+* Add configuration manager
 * Change Microsoft Denpendency Injection to Autofac
 * Unity Tests
 * Implement AutoMapper

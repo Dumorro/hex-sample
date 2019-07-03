@@ -1,13 +1,8 @@
-using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using Hex.Event.Core.Application;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Swashbuckle.AspNetCore.Swagger;
-using System.Reflection;
 
 namespace Hex.Event.WebAPI
 {
@@ -26,10 +21,23 @@ namespace Hex.Event.WebAPI
             services.AddControllers()
                     .AddNewtonsoftJson();
 
-            //services.AddSwaggerGen(c =>
-            //{
-            //    c.SwaggerDoc("v1", new Info { Title = "Event subscribe API", Version = "v1" });
-            //});
+            services.AddSwaggerDocument(config =>
+            {
+                config.PostProcess = document =>
+                {
+                    document.Info.Version = "v1";
+                    document.Info.Title = "Hex.Event API";
+                    document.Info.Description = "A simple ASP.NET Core Web API Port to Hexagonal Architecture";
+                    document.Info.TermsOfService = "None";
+                    document.Info.Contact = new NSwag.OpenApiContact
+                    {
+                        Name = "Thiago F Coelho",
+                        Email = "tfcoelho@msn.com",
+                        Url = "https://github.com/Dumorro/"
+                    };
+                   
+                };
+            });
 
 
             ConfigureDomainServices(services);
@@ -55,13 +63,7 @@ namespace Hex.Event.WebAPI
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
-            //app.UseSwagger();
-            //app.UseSwaggerUI(c =>
-            //{
-            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Event subscribe API");
-            //});
-
+            
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -73,7 +75,8 @@ namespace Hex.Event.WebAPI
                 endpoints.MapControllers();
             });
 
-
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
         }
     }
 }

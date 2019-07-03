@@ -6,6 +6,10 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\Users\tfcoe\source\repos\hex-sample\Hex.Event.WebAPI\Hex.Event.WebAPI.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.2" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
@@ -16,17 +20,17 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0-preview6.19304.6" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.7.9" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.7.11" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0-preview6-19319-03" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
+    <PackageReference Include="NSwag.AspNetCore" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Hex.Event.Core.Application\Hex.Event.Core.Application.csproj" />
     <ProjectReference Include="..\Hex.Event.Core.Domain\Hex.Event.Core.Domain.csproj" />
+    <ProjectReference Include="..\Hex.Event.EmailAdpter\Hex.Event.EmailAdpter.csproj" />
     <ProjectReference Include="..\Hex.Event.EventsDispatcherAdapter\Hex.Event.EventsDispatcherAdapter.csproj" />
     <ProjectReference Include="..\Hex.Event.Repository\Hex.Event.Repository.csproj" />
-    <ProjectReference Include="..\Hexa.Event.EmailAdpter\Hex.Event.EmailAdpter.csproj" />
   </ItemGroup>
 
 </Project>
