@@ -5,12 +5,10 @@ A simple  ASP.NE Core WebApi project implement a Hexagonal Architecture basing o
 
 ### Roadmap
 * Add configuration manager
-* Change Microsoft Denpendency Injection to Autofac
 * Unity Tests
 * Implement AutoMapper
-* Implement Event Source
+* Implement Event Sourcing
 * Implement Messaging
-* Event Sourcing
 
 ### References
 * [Uncle Bob - The Clean Code Blog](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
