@@ -25,7 +25,7 @@ namespace Hex.Event.Core.Application
             var student = new Student { Email = subscribe.Email, Name = subscribe.Name };
             await _courseRespository.SaveSubscribe(subscribe.Course, student );
 
-            var subscribeMessage = new RegisterCompleted(subscribe.Course, subscribe.Name, subscribe.Email);
+            var subscribeMessage = new RegisterCompleted(subscribe.Name, subscribe.Course, subscribe.Email);
 
             var @event = new OnCourseSubscribeCompletedEvent() { RegisterCompleted = subscribeMessage};
 

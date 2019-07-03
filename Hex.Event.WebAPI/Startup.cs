@@ -1,8 +1,17 @@
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Hex.Event.Core.Application;
+using Hex.Event.Core.Domain.Entities.Base;
+using Hex.Event.EmailAdpter;
+using Hex.Event.EventsDispatcherAdapter.DomainEvents;
+using Hex.Event.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Reflection;
 
 namespace Hex.Event.WebAPI
 {
@@ -40,7 +49,29 @@ namespace Hex.Event.WebAPI
             });
 
 
-            ConfigureDomainServices(services);
+            //ConfigureDomainServices(services);
+            BuildDependencyInjectionProvider(services);
+        }
+        private static IServiceProvider BuildDependencyInjectionProvider(IServiceCollection services)
+        {
+            var builder = new ContainerBuilder();
+
+            // Populate the container using the service collection
+            builder.Populate(services);
+
+            // TODO: Add Registry Classes to eliminate reference to Infrastructure
+            Assembly webAssembly = Assembly.GetExecutingAssembly();
+            Assembly coreAssembly = Assembly.GetAssembly(typeof(BaseEntity<>));
+            Assembly serviceManagerAssembly = Assembly.GetAssembly(typeof(CourseServiceManager));
+            Assembly emailAdapterAssembly = Assembly.GetAssembly(typeof(EmailAdapter)); // TODO: Move to Infrastucture Registry
+            Assembly respositorydapterAssembly = Assembly.GetAssembly(typeof(CourseRespository)); 
+            Assembly dispatcherAdapterAssembly = Assembly.GetAssembly(typeof(DomainEventDispatcher)); 
+            
+            builder.RegisterAssemblyTypes(webAssembly, coreAssembly, serviceManagerAssembly, emailAdapterAssembly, respositorydapterAssembly, dispatcherAdapterAssembly).AsImplementedInterfaces();
+
+           IContainer applicationContainer = builder.Build();
+
+           return new AutofacServiceProvider(applicationContainer);
         }
 
         private void ConfigureDomainServices(IServiceCollection services)
@@ -48,8 +79,7 @@ namespace Hex.Event.WebAPI
             services.AddProjectModelCoreApplication();
             services.AddProjectModelDipatcherAdapter();
             services.AddProjectModelEventsRepository();
-        }
-       
+        }       
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

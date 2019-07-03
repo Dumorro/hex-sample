@@ -1,32 +1,35 @@
-﻿using Hex.Event.Core.Domain.Adapters;
+﻿using Autofac;
 using Hex.Event.Core.Domain.DomainEvents;
 using Hex.Event.Core.Domain.DomainEvents.Base;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace Hex.Event.EventsDispatcherAdapter.DomainEvents
 {
     public class DomainEventDispatcher : IDomainEventDispatcher
     {
-        //TODO: refactor to cotainer injection.
-        private const string METHOD_NAME = "Handle";
+
+        private readonly IComponentContext _container;
+        public DomainEventDispatcher(IComponentContext container)
+        {
+            _container = container;
+        }
+
         public void Dispatch(DomainEvent domainEvent)
         {
-            var assembly = domainEvent.GetType().Assembly;
-
             Type handlerType = typeof(IHandle<>).MakeGenericType(domainEvent.GetType());
-            
-            var wrappedHandlerTypes = (from type in assembly.DefinedTypes.ToList()
-                                       from i in type.ImplementedInterfaces
-                                       where i.FullName == handlerType.FullName
-                                       select type).AsEnumerable();
+            Type wrapperType = typeof(DomainEventHandler<>).MakeGenericType(domainEvent.GetType());
 
-            foreach (var wrappedType in wrappedHandlerTypes)
+            IEnumerable handlers = (IEnumerable)_container.Resolve(typeof(IEnumerable<>).MakeGenericType(handlerType));
+
+            IEnumerable<DomainEventHandler> wrappedHandlers = handlers.Cast<object>()
+                .Select(handler => (DomainEventHandler)Activator.CreateInstance(wrapperType, handler));
+                
+            foreach (DomainEventHandler handler in wrappedHandlers)
             {
-                object handlerObject = Activator.CreateInstance(wrappedType);
-                wrappedType.InvokeMember(METHOD_NAME, BindingFlags.InvokeMethod | BindingFlags.Instance | BindingFlags.Public,
-                                          null, handlerObject, new object[] { domainEvent });
+                handler.Handle(domainEvent);
             }
         }
     }

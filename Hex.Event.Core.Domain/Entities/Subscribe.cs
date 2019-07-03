@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Hex.Event.Core.Domain.Entities
 {
-    public class Subscribe : Entity<int>
+    public class Subscribe : BaseEntity<int>
     {
         public Guid StudentId { get; set; }
         [ForeignKey("StudentId")]

@@ -3,7 +3,7 @@ using System;
 
 namespace Hex.Event.Core.Domain.Entities
 {
-    public class Course: Entity<int>
+    public class Course: BaseEntity<int>
     {
         public Course Name { get; set; }
     }
