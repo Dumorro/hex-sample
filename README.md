@@ -1,4 +1,4 @@
-##   Implementation of the Ports&Apters/Hexagonal Architecture model
+##   Implementation of the Onion/Hexagonal Architecture model
 
 ### Features
 A simple  ASP.NE Core WebApi project implement a Hexagonal Architecture basing on SOLID and Clean Code principles.
