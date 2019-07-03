@@ -1,7 +1,7 @@
 ##   Implementation of the Onion/Hexagonal Architecture model
 
 ### Features
-A simple  ASP.NE Core WebApi project implement a Hexagonal Architecture basing on SOLID and Clean Code principles.
+A simple  ASP.NE Core WebApi project thats implement a Hexagonal Architecture basing on SOLID and Clean Code principles.
 
 ### Roadmap
 * Add configuration manager
