@@ -3,11 +3,11 @@ using Hex.Event.Core.Domain.DomainEvents;
 
 namespace Hex.Event.Core.Application.DomainEvents
 {
-    public class OnCourseSubscribeCompletedEventHandler : IHandle<OnCourseSubscribeCompletedEvent>
+    public class SendEmailOnCourseSubscribeCompletedHandle : IHandle<OnCourseSubscribeCompletedEvent>
     {
         private const string EMAIL_SENDER = "test@email.com";
         private readonly IEmailAdapter _emailAdapter;
-        public OnCourseSubscribeCompletedEventHandler(IEmailAdapter emailAdapter)
+        public SendEmailOnCourseSubscribeCompletedHandle(IEmailAdapter emailAdapter)
         {
             _emailAdapter = emailAdapter;
         }

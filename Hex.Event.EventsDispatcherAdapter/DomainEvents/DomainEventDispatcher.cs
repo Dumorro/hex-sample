@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Hex.Event.EventsDispatcherAdapter.DomainEvents
 {
@@ -17,7 +18,7 @@ namespace Hex.Event.EventsDispatcherAdapter.DomainEvents
             _container = container;
         }
 
-        public void Dispatch(DomainEvent domainEvent)
+        public async Task Dispatch(DomainEvent domainEvent)
         {
             Type handlerType = typeof(IHandle<>).MakeGenericType(domainEvent.GetType());
             Type wrapperType = typeof(DomainEventHandler<>).MakeGenericType(domainEvent.GetType());
@@ -29,7 +30,7 @@ namespace Hex.Event.EventsDispatcherAdapter.DomainEvents
                 
             foreach (DomainEventHandler handler in wrappedHandlers)
             {
-                handler.Handle(domainEvent);
+                await Task.Run(() => handler.Handle(domainEvent));
             }
         }
     }

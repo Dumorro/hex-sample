@@ -1,9 +1,10 @@
 ﻿using Hex.Event.Core.Domain.DomainEvents.Base;
+using System.Threading.Tasks;
 
 namespace Hex.Event.Core.Domain.DomainEvents
 {
     public interface IDomainEventDispatcher
     {
-        void Dispatch(DomainEvent domainEvent);
+        Task Dispatch(DomainEvent domainEvent);
     }
 }
